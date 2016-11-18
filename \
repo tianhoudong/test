@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct treenode
+{
+	int data;
+	treenode* left;
+	treenode* right;
+}tree_t;
+
+tree_t*  create_tree(int data, int size)
+{
+	if(data>size)
+		return NULL;
+	tree_t* tree=malloc(sizeof(tree_t));
+	tree->left=create_tree(2*data, size); //左子树
+	tree->right=create_tree(2*data+1, size);//右子树
+	return tree;
+}
+//前序
+int print_pre(tree_t* tree)
+{
+	if(tree==NULL)
+		return -1;
+	printf("%2d ",tree->data);
+    print_pre(tree->left);
+	print_pre(tree->right);
+	return 0;
+}
+//中序
+int print_mid(tree_t* tree)
+{
+	if(tree==NULL)
+		return -1;
+	print_mid(tree->left);
+	printf("%2d ",tree->data);
+	print_mid(tree);
+	print_mid(tree->right);
+}
+//后序
+int print_post(tree_t* tree)
+{
+	if(tree==NULL)
+		return -1;
+	print_post(tree->right);
+	printf("%2d ", tree->data);
+	print_post(tree->left);
+	print_post(tree);
+}
+
+
+int main(int argc, const char *argv[])
+{
+	tree_t* tree;
+	tree= create_tree(0,10);
+	print_pre(tree);
+	printf("\n");
+	printf("***********************\n");
+	print_mid(tree);
+	printf("\n");
+    printf("***********************\n");
+	print_post(tree);
+	printf("\n");
+	printf("***********************\n");
+	return 0;
+}
